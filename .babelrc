@@ -1,6 +1,23 @@
 {
   "presets": [
-    ["@babel/preset-env", { "targets": { "node": "current" } }],
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current",
+          "browsers": "defaults, not IE11"
+        }
+      }
+    ],
     "@babel/preset-typescript"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "h",
+        "pragmaFrag": "Fragment"
+      }
+    ]
   ]
 }

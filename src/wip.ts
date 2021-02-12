@@ -2,7 +2,11 @@ import { existsSync, lstatSync, readFileSync } from 'fs';
 import * as pathM from 'path';
 import { findImports } from './extract';
 
-export function expand(dir: string, source: string, extensions = ['ts', 'js', 'json'] as const) {
+export function expand(
+  dir: string,
+  source: string,
+  extensions = ['ts', 'js', 'json'] as const,
+) {
   // mkdir -p a; echo 'console.log("file");' > a.js; echo 'console.log("dir");' > a/index.js; node -e 'require("./a")'
   const resolved = pathM.resolve(dir, source);
 
@@ -23,7 +27,9 @@ export function expand(dir: string, source: string, extensions = ['ts', 'js', 'j
         }
       }
 
-      throw new Error(`'${resolved}' is a directory but has no index.${extensions} file`);
+      throw new Error(
+        `'${resolved}' is a directory but has no index.${extensions} file`,
+      );
     }
 
     return resolved;
@@ -36,7 +42,7 @@ export function expand(dir: string, source: string, extensions = ['ts', 'js', 'j
   throw new Error(`${dir} -> ${source} = ${resolved}, which does not exist`);
 }
 
-async function main() {
+export async function main() {
   const root = pathM.resolve(process.cwd(), process.argv[2]);
   const work: string[] = [root];
   const tree: Record<string, string[]> = {};

@@ -13,7 +13,11 @@ import { includesSubsequence, sortBy } from './dosh';
 export async function allFiles() {
   const paths = yargs(hideBin(process.argv)).argv._ as string[];
   const inputs = await fg(paths);
-  sortBy(inputs, (input) => directoryDepth(input), input => input);
+  sortBy(
+    inputs,
+    (input) => directoryDepth(input),
+    (input) => input,
+  );
   const modules: Dependencies = {};
   for (const input of inputs) {
     modules[input] = [];
@@ -31,7 +35,11 @@ export async function allFiles() {
   }
   console.log(inputs);
   const problems = circularDependencies(modules);
-  sortBy(problems, ({length}) => length, ([item]) => item);
+  sortBy(
+    problems,
+    ({ length }) => length,
+    ([item]) => item,
+  );
   for (let i = problems.length - 1; i > 0; --i) {
     const us = problems[i];
     if (alreadyCovered(us, problems.slice(0, i - 1))) {

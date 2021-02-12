@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "format": "prettier --write 'src/**/*.ts' '*.js' 'web/*.tsx' .babelrc",
     "test": "jest"
   },
   "repository": {
@@ -27,8 +28,11 @@
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/yargs": "^16.0.0",
+    "awesome-typescript-loader": "^5.2.1",
     "jest": "^26.6.3",
+    "preact": "^10.5.12",
     "prettier": "^2.2.1",
+    "source-map-loader": "^2.0.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",
     "webpack": "^5.21.2",

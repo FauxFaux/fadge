@@ -26,7 +26,10 @@ export function findImports(src: string): Reference[] {
   traverse(tree, {
     ImportDeclaration(path) {
       const source = string(path.node.source);
-      const ignored = path.node.leadingComments?.some(comment => comment.value.trim().startsWith('fadge-ignore ')) ?? false;
+      const ignored =
+        path.node.leadingComments?.some((comment) =>
+          comment.value.trim().startsWith('fadge-ignore '),
+        ) ?? false;
       references.push({
         ignored,
         source,
