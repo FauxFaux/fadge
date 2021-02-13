@@ -1,14 +1,7 @@
-import { inspect } from 'util';
 import * as t from '@babel/types';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
-
-function string(v: any): string {
-  if (t.isStringLiteral(v)) {
-    return v.value;
-  }
-  throw new Error(`not a string: ${v?.type}: ${inspect(v)}`);
-}
+import { string } from './dosh';
 
 interface Reference {
   source: string;
