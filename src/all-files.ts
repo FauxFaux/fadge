@@ -61,7 +61,7 @@ function alreadyCovered(problem: string[], others: string[][]): boolean {
 
 function directoryDepth(filename: string): number {
   // count of '/' characters
-  return filename.replace(/[^\/]/g, '').length;
+  return filename.replace(/[^/]/g, '').length;
 }
 
 allFiles();

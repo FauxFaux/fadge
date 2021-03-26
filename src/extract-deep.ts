@@ -78,14 +78,16 @@ export function extraction(src: string): Reference[] {
           throw path.buildCodeFrameError('not within a file?');
         case 'ImportDeclaration':
           break;
-        case 'ExportNamedDeclaration':
+        case 'ExportNamedDeclaration': {
           const exp = top.node;
           switch (exp.declaration?.type) {
-            case 'FunctionDeclaration':
+            case 'FunctionDeclaration': {
               const fname = exp.declaration.id?.name;
               console.log(`${fname} -> "${implot}"[${ident}]`);
+            }
           }
           break;
+        }
       }
     },
     CallExpression(path) {

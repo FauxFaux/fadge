@@ -4,8 +4,6 @@
     "target": "es2017",
     "lib": ["es2017"],
     "module": "commonjs",
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "declaration": true,

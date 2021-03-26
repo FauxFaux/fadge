@@ -4,7 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "format": "prettier --write 'src/**/*.ts' '*.js' 'web/*.tsx' .babelrc",
+    "prepare": "tsc",
+    "format": "prettier --write 'src/**/*.ts' .babelrc",
+    "lint": "eslint 'src/**/*.ts'",
     "test": "jest"
   },
   "repository": {
@@ -22,23 +24,19 @@
     "@babel/traverse": "^7.12.12",
     "@babel/types": "^7.12.12",
     "fast-glob": "^3.2.5",
-    "fastify": "^3.11.0",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.12.16",
     "@babel/preset-env": "^7.12.16",
     "@babel/preset-typescript": "^7.12.16",
     "@types/jest": "^26.0.20",
     "@types/yargs": "^16.0.0",
-    "awesome-typescript-loader": "^5.2.1",
-    "jest": "^26.6.3",
-    "preact": "^10.5.12",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "eslint": "^7.22.0",
+    "jest": "^27.0.0-next.6",
     "prettier": "^2.2.1",
-    "source-map-loader": "^2.0.1",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.3",
-    "webpack": "^5.21.2",
-    "webpack-cli": "^4.5.0"
+    "typescript": "~4.2.3"
   }
 }
