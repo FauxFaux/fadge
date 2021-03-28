@@ -24,5 +24,5 @@ a lot of other stuff. It can't follow `require`s, `export`s, and has no
 ignore mechanism.
 
 It also adds around 270MB to `node_modules`, due to complex dependencies on
-the typescript compiler. `fadge` evades this (totalling <15MB, probably <20kB)
+the typescript compiler. `fadge` evades this (totalling <15MB, probably <50kB)
 by using babel's parser.
