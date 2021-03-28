@@ -1,20 +1,21 @@
 import { readFileSync } from 'fs';
 import * as path from 'path';
-
+import { findImports, Reference } from './find-references';
+import { circularDependencies, Dependencies } from './cycles';
+import { resolveRelativeImportToPath } from './resolve-import';
+import { includesSubsequence, sortBy } from './dosh';
 import fg = require('fast-glob');
 import yargs = require('yargs');
-const { hideBin } = require('yargs/helpers');
 
-import { findImports, Reference } from './extract';
-import { circularDependencies, Dependencies } from './cycles';
-import { expand } from './wip';
-import { includesSubsequence, sortBy } from './dosh';
+const { hideBin } = require('yargs/helpers');
 
 export async function allFiles() {
   const paths = yargs(hideBin(process.argv)).argv._ as string[];
   const inputPaths = await fg(paths);
   const modules: Dependencies = {};
-  for (const inputPath of inputPaths.map((input) => path.resolve(input)).sort()) {
+  for (const inputPath of inputPaths
+    .map((input) => path.resolve(input))
+    .sort()) {
     const sourceText = readFileSync(inputPath, { encoding: 'utf-8' });
     const inputDirName = path.dirname(inputPath);
 
@@ -36,7 +37,9 @@ export async function allFiles() {
         continue;
       }
 
-      referencedPaths.add(expand(inputDirName, ref.source));
+      referencedPaths.add(
+        resolveRelativeImportToPath(inputDirName, ref.source),
+      );
     }
 
     modules[inputPath] = [...referencedPaths].sort();
