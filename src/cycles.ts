@@ -1,3 +1,5 @@
+import { includesSubsequence } from './dosh';
+
 function getPath(parent: string, unresolved: MapBool): string[] {
   let parentVisited = false;
 
@@ -52,6 +54,25 @@ export function circularDependencies(modules: Dependencies): string[][] {
   }
 
   return circular;
+}
+
+export function removeDuplicateCycles(problems: string[][]) {
+  for (let i = problems.length - 1; i > 0; --i) {
+    const us = problems[i];
+    if (alreadyCovered(us, problems.slice(0, i - 1))) {
+      problems.splice(i, 1);
+    }
+  }
+}
+
+function alreadyCovered(problem: string[], others: string[][]): boolean {
+  for (const other of others) {
+    if (includesSubsequence(problem, other)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 interface MapBool {

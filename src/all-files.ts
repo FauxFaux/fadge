@@ -1,9 +1,9 @@
 import { readFileSync } from 'fs';
 import * as path from 'path';
 import { findImports, Reference } from './find-references';
-import { circularDependencies, Dependencies } from './cycles';
+import { circularDependencies, Dependencies, removeDuplicateCycles } from './cycles';
 import { resolveRelativeImportToPath } from './resolve-import';
-import { includesSubsequence, sortBy } from './dosh';
+import { sortBy } from './dosh';
 import fg = require('fast-glob');
 import yargs = require('yargs');
 
@@ -53,25 +53,6 @@ export async function allFiles() {
   );
   removeDuplicateCycles(problems);
   console.log(problems);
-}
-
-function removeDuplicateCycles(problems: string[][]) {
-  for (let i = problems.length - 1; i > 0; --i) {
-    const us = problems[i];
-    if (alreadyCovered(us, problems.slice(0, i - 1))) {
-      problems.splice(i, 1);
-    }
-  }
-}
-
-function alreadyCovered(problem: string[], others: string[][]): boolean {
-  for (const other of others) {
-    if (includesSubsequence(problem, other)) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 allFiles().catch((e) => {
