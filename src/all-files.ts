@@ -5,23 +5,30 @@ import fg = require('fast-glob');
 import yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 
-import { findImports } from './extract';
+import { findImports, Reference } from './extract';
 import { circularDependencies, Dependencies } from './cycles';
 import { expand } from './wip';
 import { includesSubsequence, sortBy } from './dosh';
 
 export async function allFiles() {
   const paths = yargs(hideBin(process.argv)).argv._ as string[];
-  const inputs = await fg(paths);
-  sortBy(
-    inputs,
-    (input) => directoryDepth(input),
-    (input) => input,
-  );
+  const inputPaths = await fg(paths);
   const modules: Dependencies = {};
-  for (const input of inputs) {
-    modules[input] = [];
-    for (const ref of findImports(readFileSync(input).toString('utf-8'))) {
+  for (let inputPath of inputPaths) {
+    inputPath = path.resolve(inputPath);
+    const sourceText = readFileSync(inputPath, { encoding: 'utf-8' });
+    const inputDirName = path.dirname(inputPath);
+
+    let references: Reference[];
+    try {
+      references = findImports(sourceText);
+    } catch (e) {
+      e.message += ` while parsing ${inputPath}`;
+      throw e;
+    }
+
+    const referencedPaths = new Set<string>();
+    for (const ref of references) {
       if (ref.kind === 'export' || ref.typeOnly) {
         continue;
       }
@@ -30,10 +37,12 @@ export async function allFiles() {
         continue;
       }
 
-      modules[input].push(expand(path.dirname(input), ref.source));
+      referencedPaths.add(expand(inputDirName, ref.source));
     }
+
+    modules[inputPath] = [...referencedPaths];
   }
-  console.log(inputs);
+
   const problems = circularDependencies(modules);
   sortBy(
     problems,
@@ -59,9 +68,7 @@ function alreadyCovered(problem: string[], others: string[][]): boolean {
   return false;
 }
 
-function directoryDepth(filename: string): number {
-  // count of '/' characters
-  return filename.replace(/[^/]/g, '').length;
-}
-
-allFiles();
+allFiles().catch((e) => {
+  console.error(e);
+  process.exitCode = 2;
+});

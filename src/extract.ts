@@ -3,7 +3,7 @@ import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
 import { string } from './dosh';
 
-interface Reference {
+export interface Reference {
   source: string;
   kind: 'import' | 'export' | 'require';
   typeOnly: boolean;
