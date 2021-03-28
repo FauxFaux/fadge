@@ -57,7 +57,7 @@ export function circularDependencies(dependencies: Dependencies): string[][] {
 export function cleanupCircularDependencies(problems: string[][]) {
   sortBy(
     problems,
-    ({length}) => length,
+    ({ length }) => length,
     ([item]) => item,
   );
   removeDuplicateCycles(problems);
