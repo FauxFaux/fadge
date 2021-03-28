@@ -46,6 +46,33 @@ export function string(v: any): string {
   throw new Error(`not a string: ${v?.type}: ${inspect(v)}`);
 }
 
+export function longestCommonPrefix(paths: string[]): string {
+  let now = (paths[0] ?? '').split('/');
+
+  for (const path of paths.slice(1)) {
+    now = lcp2(now, path.split('/'));
+    if (!now.length) {
+      return '/';
+    }
+  }
+  return now.join('/') + '/';
+}
+
+export function lcp2<T>(left: T[], right: T[]): T[] {
+  let i = 0;
+  while (i++ < left.length) {
+    if (left[i] !== right[i]) break;
+  }
+  return left.slice(0, i);
+}
+
+export function stripPrefix(prefix: string, from: string) {
+  if (from.startsWith(prefix)) {
+    return from.substring(prefix.length);
+  }
+  return from;
+}
+
 export function invariant(
   condition: unknown,
   message?: string,

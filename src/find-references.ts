@@ -2,6 +2,7 @@ import * as t from '@babel/types';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
 import { string } from './dosh';
+import { readFileSync } from 'fs';
 
 export interface Reference {
   source: string;
@@ -10,7 +11,18 @@ export interface Reference {
   ignored: boolean;
 }
 
-export function findImports(src: string): Reference[] {
+export function findReferencesForSourceFile(inputPath: string) {
+  const sourceText = readFileSync(inputPath, { encoding: 'utf-8' });
+
+  try {
+    return findReferencesForSource(sourceText);
+  } catch (e) {
+    e.message += ` while parsing ${inputPath}`;
+    throw e;
+  }
+}
+
+export function findReferencesForSource(src: string): Reference[] {
   const tree = parser.parse(src, {
     sourceType: 'unambiguous',
     plugins: ['typescript', 'classProperties'],
