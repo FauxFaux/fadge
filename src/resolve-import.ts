@@ -36,9 +36,9 @@ export function resolveRelativeImportToPath(
     if (err.code !== 'ENOENT') {
       throw err;
     }
-  }
 
-  throw new Error(
-    `${dir} -> ${relativeImport} = ${resolved}, which does not exist`,
-  );
+    throw new Error(
+      `${dir} -> ${relativeImport} = ${resolved}, which does not exist`,
+    );
+  }
 }

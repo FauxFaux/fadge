@@ -1,8 +1,8 @@
+import { readFileSync } from 'fs';
 import * as t from '@babel/types';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
 import { string } from './dosh';
-import { readFileSync } from 'fs';
 
 export interface Reference {
   source: string;
@@ -51,7 +51,7 @@ export function findReferencesForSource(src: string): Reference[] {
       const source = string(path.node.source);
       references.push({
         source,
-        kind: 'import',
+        kind: 'export',
         typeOnly: path.node.exportKind === 'type',
         // TODO: we can compute this, but does anyone care?
         ignored: false,

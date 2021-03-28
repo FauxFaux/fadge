@@ -85,28 +85,3 @@ export function invariant(
 export function assertUnreachable(x: never): never {
   throw new Error(`Didn't expect to get here: ${x}`);
 }
-
-export class DefaultRecord<K extends string, V> {
-  inner: Record<K, V> = {} as any;
-  factory: () => V;
-
-  constructor(factory: () => V) {
-    this.factory = factory;
-  }
-
-  get(key: K): V {
-    if (!(key in this.inner)) {
-      this.inner[key] = this.factory();
-    }
-
-    return this.inner[key];
-  }
-
-  keys(): K[] {
-    return Object.keys(this.inner) as K[];
-  }
-
-  entries(): [K, V][] {
-    return Object.entries(this.inner) as [K, V][];
-  }
-}

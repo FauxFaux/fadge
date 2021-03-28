@@ -1,4 +1,4 @@
-import { includesSubsequence } from './dosh';
+import { includesSubsequence, sortBy } from './dosh';
 
 function getPath(parent: string, unresolved: MapBool): string[] {
   let parentVisited = false;
@@ -40,23 +40,30 @@ function resolver(
 }
 
 /**
- * Finds all circular dependencies for the given modules.
- * @param  {Object} modules
- * @return {Array}
+ * Finds all circular dependencies for the given dependencies.
  */
-export function circularDependencies(modules: Dependencies): string[][] {
+export function circularDependencies(dependencies: Dependencies): string[][] {
   const circular: string[][] = [];
   const resolved = {};
   const unresolved = {};
 
-  for (const id of Object.keys(modules)) {
-    resolver(id, modules, circular, resolved, unresolved);
+  for (const id of Object.keys(dependencies)) {
+    resolver(id, dependencies, circular, resolved, unresolved);
   }
 
   return circular;
 }
 
-export function removeDuplicateCycles(problems: string[][]) {
+export function cleanupCircularDependencies(problems: string[][]) {
+  sortBy(
+    problems,
+    ({length}) => length,
+    ([item]) => item,
+  );
+  removeDuplicateCycles(problems);
+}
+
+function removeDuplicateCycles(problems: string[][]) {
   for (let i = problems.length - 1; i > 0; --i) {
     const us = problems[i];
     if (alreadyCovered(us, problems.slice(0, i - 1))) {
