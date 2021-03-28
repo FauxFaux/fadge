@@ -14,8 +14,7 @@ export async function allFiles() {
   const paths = yargs(hideBin(process.argv)).argv._ as string[];
   const inputPaths = await fg(paths);
   const modules: Dependencies = {};
-  for (let inputPath of inputPaths) {
-    inputPath = path.resolve(inputPath);
+  for (const inputPath of inputPaths.map((input) => path.resolve(input)).sort()) {
     const sourceText = readFileSync(inputPath, { encoding: 'utf-8' });
     const inputDirName = path.dirname(inputPath);
 
@@ -40,7 +39,7 @@ export async function allFiles() {
       referencedPaths.add(expand(inputDirName, ref.source));
     }
 
-    modules[inputPath] = [...referencedPaths];
+    modules[inputPath] = [...referencedPaths].sort();
   }
 
   const problems = circularDependencies(modules);
@@ -49,13 +48,17 @@ export async function allFiles() {
     ({ length }) => length,
     ([item]) => item,
   );
+  removeDuplicateCycles(problems);
+  console.log(problems);
+}
+
+function removeDuplicateCycles(problems: string[][]) {
   for (let i = problems.length - 1; i > 0; --i) {
     const us = problems[i];
     if (alreadyCovered(us, problems.slice(0, i - 1))) {
       problems.splice(i, 1);
     }
   }
-  console.log(problems);
 }
 
 function alreadyCovered(problem: string[], others: string[][]): boolean {
