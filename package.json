@@ -1,12 +1,13 @@
 {
   "name": "fadge",
   "version": "0.0.0",
-  "description": "",
+  "description": "parse with babel and check for circular imports",
   "main": "dist/index.js",
   "scripts": {
     "prepare": "tsc",
     "format": "prettier --write 'src/**/*.ts' .babelrc",
     "lint": "eslint 'src/**/*.ts'",
+    "start": "node dist/cli.js",
     "test": "jest"
   },
   "repository": {
@@ -19,7 +20,9 @@
     "url": "https://github.com/FauxFaux/fadge/issues"
   },
   "homepage": "https://github.com/FauxFaux/fadge#readme",
-  "bin": { "fadge":  "dist/cli.js" },
+  "bin": {
+    "fadge": "dist/cli.js"
+  },
   "dependencies": {
     "@babel/parser": "^7.12.11",
     "@babel/traverse": "^7.12.12",
