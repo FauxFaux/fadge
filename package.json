@@ -1,6 +1,6 @@
 {
   "name": "fadge",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "parse with babel and check for circular imports",
   "main": "dist/index.js",
   "scripts": {
