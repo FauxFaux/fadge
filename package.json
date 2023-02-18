@@ -28,13 +28,13 @@
     "@babel/traverse": "^7.12.12",
     "@babel/types": "^7.12.12",
     "fast-glob": "^3.2.5",
-    "yargs": "^16.2.0"
+    "yargs": "^17.7.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.12.16",
     "@babel/preset-typescript": "^7.12.16",
     "@types/jest": "^29",
-    "@types/yargs": "^16.0.0",
+    "@types/yargs": "^17.0.22",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
     "eslint": "^8.34.0",
