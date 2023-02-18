@@ -33,7 +33,7 @@ export function resolveRelativeImportToPath(
 
     return resolved;
   } catch (err) {
-    if (err.code !== 'ENOENT') {
+    if ((err as any).code !== 'ENOENT') {
       throw err;
     }
 

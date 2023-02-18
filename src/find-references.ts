@@ -17,7 +17,7 @@ export function findReferencesForSourceFile(inputPath: string) {
   try {
     return findReferencesForSource(sourceText);
   } catch (e) {
-    e.message += ` while parsing ${inputPath}`;
+    (e as any).message += ` while parsing ${inputPath}`;
     throw e;
   }
 }
