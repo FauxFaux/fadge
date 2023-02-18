@@ -9,7 +9,9 @@
   "plugins": [
     "@typescript-eslint"
   ],
+  "root": true,
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
   ]
 }
