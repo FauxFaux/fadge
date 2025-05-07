@@ -1,7 +1,9 @@
 import * as path from 'path';
-import { longestCommonPrefix, stripPrefix } from './dosh';
-import { dependenciesForPaths } from './dependencies';
-import { circularDependencies, cleanupCircularDependencies } from './cycles';
+import { longestCommonPrefix, stripPrefix } from './dosh.js';
+import { dependenciesForPaths } from './dependencies.js';
+import { circularDependencies, cleanupCircularDependencies } from './cycles.js';
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import fg = require('fast-glob');
 
 export interface Options {

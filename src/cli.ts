@@ -1,6 +1,7 @@
 #!/usr/bin/env node
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import yargs = require('yargs');
-import { printCyclesInGlobs } from './detect-cycles';
+import { printCyclesInGlobs } from './detect-cycles.js';
 
 export async function cli() {
   await yargs(process.argv.slice(2))

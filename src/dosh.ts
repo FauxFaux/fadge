@@ -1,5 +1,6 @@
 import * as t from '@babel/types';
-import { inspect } from 'util';
+import { inspect } from 'node:util';
+import { Node } from '@babel/types';
 
 export type ExtractKey<T> = ((item: T) => number) | ((item: T) => string);
 
@@ -39,7 +40,7 @@ function startsWith<T>(array: T[], sequence: T[]): boolean {
   return true;
 }
 
-export function string(v: any): string {
+export function string(v: Node | undefined): string {
   if (t.isStringLiteral(v)) {
     return v.value;
   }
@@ -80,8 +81,4 @@ export function invariant(
   if (!condition) {
     throw new Error(message);
   }
-}
-
-export function assertUnreachable(x: never): never {
-  throw new Error(`Didn't expect to get here: ${x}`);
 }

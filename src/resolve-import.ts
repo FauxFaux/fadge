@@ -1,5 +1,5 @@
-import { existsSync, lstatSync } from 'fs';
-import * as path from 'path';
+import { existsSync, lstatSync } from 'node:fs';
+import * as path from 'node:path';
 
 export function resolveRelativeImportToPath(
   dir: string,
@@ -27,13 +27,16 @@ export function resolveRelativeImportToPath(
       }
 
       throw new Error(
-        `'${resolved}' is a directory but has no index.${extensions} file`,
+        `'${resolved}' is a directory but has no index.[${extensions.join(',')}] file`,
       );
     }
 
     return resolved;
   } catch (err) {
-    if ((err as any).code !== 'ENOENT') {
+    if (
+      typeof err === 'object' &&
+      (err as { code: unknown }).code !== 'ENOENT'
+    ) {
       throw err;
     }
 

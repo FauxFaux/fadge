@@ -1,4 +1,4 @@
-import { includesSubsequence, sortBy } from './dosh';
+import { includesSubsequence, sortBy } from './dosh.js';
 
 function getPath(parent: string, unresolved: MapBool): string[] {
   let parentVisited = false;

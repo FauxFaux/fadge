@@ -1,7 +1,7 @@
 import { dirname } from 'path';
-import { findReferencesForSourceFile, Reference } from './find-references';
-import { Dependencies } from './cycles';
-import { resolveRelativeImportToPath } from './resolve-import';
+import { findReferencesForSourceFile, Reference } from './find-references.js';
+import { Dependencies } from './cycles.js';
+import { resolveRelativeImportToPath } from './resolve-import.js';
 
 export function dependenciesForPaths(
   inputPaths: string[],
