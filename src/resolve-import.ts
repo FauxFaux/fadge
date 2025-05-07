@@ -16,6 +16,16 @@ export function resolveRelativeImportToPath(
     }
   }
 
+  if (relativeImport.endsWith('.js')) {
+    const resolved = path.resolve(dir, relativeImport.slice(0, -3));
+    for (const ext of extensions) {
+      const asFile = `${resolved}.${ext}`;
+      if (existsSync(asFile)) {
+        return asFile;
+      }
+    }
+  }
+
   try {
     const stat = lstatSync(resolved);
     if (stat.isDirectory()) {

@@ -1,8 +1,10 @@
 import { readFileSync } from 'node:fs';
 import * as t from '@babel/types';
 import * as parser from '@babel/parser';
-import traverse, { type TraverseOptions } from '@babel/traverse';
+import traverseDefaultBroken from '@babel/traverse';
 import { string } from './dosh.js';
+
+const traverse = traverseDefaultBroken.default;
 
 export interface Reference {
   source: string;
@@ -30,7 +32,6 @@ export function findReferencesForSource(src: string): Reference[] {
     plugins: ['typescript', 'classProperties'],
   });
   const references: Reference[] = [];
-  // @ts-expect-error compiler is confused about default imports since esm
   traverse(tree, {
     ImportDeclaration(path) {
       const source = string(path.node.source);
@@ -94,7 +95,7 @@ export function findReferencesForSource(src: string): Reference[] {
         ignored: false,
       });
     },
-  } satisfies TraverseOptions);
+  });
 
   return references;
 }
