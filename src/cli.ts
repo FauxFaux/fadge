@@ -21,6 +21,11 @@ export async function cli() {
             describe: 'follow legacy `require()` where possible',
             default: true,
           })
+          .option('includeTypes', {
+            type: 'boolean',
+            describe: 'follow `import { type ..} from..`',
+            default: false,
+          })
           .option('includeExports', {
             type: 'boolean',
             describe: 'follow `export {..} from..`',

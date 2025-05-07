@@ -43,7 +43,11 @@ export function findReferencesForSource(src: string): Reference[] {
         ignored,
         source,
         kind: 'import',
-        typeOnly: path.node.importKind === 'type',
+        typeOnly:
+          path.node.importKind === 'type' ||
+          path.node.specifiers.every(
+            (s) => s.type !== 'ImportSpecifier' || s.importKind === 'type',
+          ),
       });
     },
     ExportNamedDeclaration(path) {

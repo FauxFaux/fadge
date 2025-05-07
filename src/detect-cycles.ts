@@ -10,6 +10,7 @@ export interface Options {
   allowIgnores: boolean;
   includeRequires: boolean;
   includeExports: boolean;
+  includeTypes: boolean;
 }
 
 async function expandGlobs(globs: string[]) {
@@ -30,6 +31,7 @@ export async function printCyclesInGlobs(
       ref.source.startsWith('.') &&
       (options.includeExports || ref.kind !== 'export') &&
       (options.includeRequires || ref.kind !== 'require') &&
+      (options.includeTypes || !ref.typeOnly) &&
       (options.allowIgnores ? !ref.ignored : true),
   );
 
