@@ -4,7 +4,7 @@ import * as path from 'node:path';
 export function resolveRelativeImportToPath(
   dir: string,
   relativeImport: string,
-  extensions = ['ts', 'js', 'json'] as const,
+  extensions = ['tsx', 'ts', 'js', 'json'] as const,
 ) {
   // mkdir -p a; echo 'console.log("file");' > a.js; echo 'console.log("dir");' > a/index.js; node -e 'require("./a")'
   const resolved = path.resolve(dir, relativeImport);
